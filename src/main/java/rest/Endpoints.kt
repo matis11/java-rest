@@ -181,7 +181,7 @@ class ListSubjectsEndpoint {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    fun get(@PathParam("index") index: String): Response {
+    fun get(): Response {
         val subjects = MockedRespository.subjects
 
         return Response.status(if (subjects == null) Response.Status.NOT_FOUND else Response.Status.OK).entity(subjects).build()
