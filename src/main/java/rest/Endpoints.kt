@@ -40,6 +40,33 @@ class StudentEndpoint {
 
         return Response.status(if (student == null) Response.Status.NOT_FOUND else Response.Status.OK).entity(student).build()
     }
+
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    fun put(@PathParam("index") index: Int, student: Student): Response {
+        val students = MockedRespository.students
+        val oldStudent = students
+                .firstOrNull { it.index == index }
+        val i = students.indexOf(oldStudent)
+
+        students[i] = student
+
+        val message = "Student ${student.name} ${student.surname} has been updated"
+        return Response.status(Response.Status.ACCEPTED).entity(message).build()
+    }
+
+    @DELETE
+    @Produces(MediaType.TEXT_PLAIN)
+    fun delete(@PathParam("index") index: Int): Response {
+        val students = MockedRespository.students
+        val student = students
+                .firstOrNull { it.index == index }
+
+        students.remove(student)
+
+        val message = "Student ${student?.name} ${student?.surname} has been removed"
+        return Response.status(Response.Status.ACCEPTED).entity(message).build()
+    }
 }
 
 @Path("students/{index}/grades")
@@ -81,6 +108,40 @@ class GradeForStudentEndpoint {
 
         return Response.status(if (grade == null) Response.Status.NOT_FOUND else Response.Status.OK).entity(grade).build()
     }
+
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    fun put(@PathParam("index") index: Int, @PathParam("id") id: String, grade: Grade): Response {
+        val students = MockedRespository.students
+                .firstOrNull { it.index == index }
+                ?.grades
+
+        val oldGrade = students
+                ?.firstOrNull { it.id == id }
+
+        val index = students?.indexOf(oldGrade)
+
+        students?.set(index!!, grade)
+
+        val message = "Grade ${grade.value} has been updated"
+        return Response.status(Response.Status.ACCEPTED).entity(message).build()
+    }
+
+    @DELETE
+    @Produces(MediaType.TEXT_PLAIN)
+    fun delete(@PathParam("index") index: Int, @PathParam("id") id: String): Response {
+        val grades = MockedRespository.students
+                .firstOrNull { it.index == index }
+                ?.grades
+
+        val grade = grades
+                ?.firstOrNull { it.id == id }
+
+        grades?.remove(grade)
+
+        val message = "Grade ${grade?.value} has been removed"
+        return Response.status(Response.Status.ACCEPTED).entity(message).build()
+    }
 }
 
 @Path("subjects")
@@ -119,13 +180,27 @@ class SubjectEndpoint {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     fun put(@PathParam("id") id: String, subject: Subject): Response {
-        val student = MockedRespository.subjects
+        val subjects = MockedRespository.subjects
+        val oldSubject = subjects
+                .firstOrNull { it.id == id }
+        val index = subjects.indexOf(oldSubject)
+
+        subjects[index] = subject
+
+        val message = "Subject ${subject.name} has been updated"
+        return Response.status(Response.Status.ACCEPTED).entity(message).build()
+    }
+
+    @DELETE
+    @Produces(MediaType.TEXT_PLAIN)
+    fun delete(@PathParam("id") id: String): Response {
+        val subjects = MockedRespository.subjects
+        val subject = subjects
                 .firstOrNull { it.id == id }
 
+        subjects.remove(subject);
 
-
-
-        val message = "Subject ${subject.name} has been added"
-        return Response.status(Response.Status.CREATED).entity(message).build()
+        val message = "Subject ${subject?.name} has been removed"
+        return Response.status(Response.Status.ACCEPTED).entity(message).build()
     }
 }
