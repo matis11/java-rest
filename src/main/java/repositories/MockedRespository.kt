@@ -12,14 +12,14 @@ object MockedRespository {
             Subject(name = "Metody Probabilistyczne", lecturer = "J.Carbon")
     )
 
-    val grades = mutableListOf(
+    private val grades = mutableListOf(
             Grade(subject = subjects[0], value = 5.0F, creationDate = Date.from(Instant.now())),
             Grade(subject = subjects[1], value = 2.0F, creationDate = Date.from(Instant.now()))
     )
 
     val students = mutableListOf(
-            Student(122437, "Mateusz", "Bartos", Date.from(Instant.now()), grades),
-            Student(437122, "Bartosz", "Mat", Date.from(Instant.now()), grades)
+            Student(name = "Mateusz", surname = "Bartos", birthday = Date.from(Instant.now()), grades = grades),
+            Student(name = "Bartosz", surname = "Mat", birthday = Date.from(Instant.now()), grades = grades)
     )
 
 }

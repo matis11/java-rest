@@ -43,7 +43,7 @@ class StudentEndpoint {
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    fun put(@PathParam("index") index: Int, student: Student): Response {
+    fun put(@PathParam("index") index: String, student: Student): Response {
         val students = MockedRespository.students
         val oldStudent = students
                 .firstOrNull { it.index == index }
@@ -54,7 +54,7 @@ class StudentEndpoint {
         }
 
         val i = students.indexOf(oldStudent)
-
+        student.index = index
         students[i] = student
 
         val message = "Student ${student.name} ${student.surname} has been updated"
@@ -63,7 +63,7 @@ class StudentEndpoint {
 
     @DELETE
     @Produces(MediaType.TEXT_PLAIN)
-    fun delete(@PathParam("index") index: Int): Response {
+    fun delete(@PathParam("index") index: String): Response {
         val students = MockedRespository.students
         val student = students
                 .firstOrNull { it.index == index }
@@ -123,7 +123,7 @@ class GradeForStudentEndpoint {
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    fun put(@PathParam("index") index: Int, @PathParam("id") id: String, grade: Grade): Response {
+    fun put(@PathParam("index") index: String, @PathParam("id") id: String, grade: Grade): Response {
         val grades = MockedRespository.students
                 .firstOrNull { it.index == index }
                 ?.grades
@@ -142,7 +142,7 @@ class GradeForStudentEndpoint {
         }
 
         val i = grades.indexOf(oldGrade)
-
+        grade.id = id
         grades[i] = grade
 
         val message = "Grade ${grade.value} has been updated"
@@ -151,7 +151,7 @@ class GradeForStudentEndpoint {
 
     @DELETE
     @Produces(MediaType.TEXT_PLAIN)
-    fun delete(@PathParam("index") index: Int, @PathParam("id") id: String): Response {
+    fun delete(@PathParam("index") index: String, @PathParam("id") id: String): Response {
         val grades = MockedRespository.students
                 .firstOrNull { it.index == index }
                 ?.grades
@@ -222,7 +222,7 @@ class SubjectEndpoint {
         }
 
         val index = subjects.indexOf(oldSubject)
-
+        subject.id = id
         subjects[index] = subject
 
         val message = "Subject ${subject.name} has been updated"
