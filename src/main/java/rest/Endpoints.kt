@@ -47,6 +47,12 @@ class StudentEndpoint {
         val students = MockedRespository.students
         val oldStudent = students
                 .firstOrNull { it.index == index }
+
+        if (oldStudent == null) {
+            val message = "Student with index $index not found"
+            return Response.status(Response.Status.NOT_FOUND).entity(message).build()
+        }
+
         val i = students.indexOf(oldStudent)
 
         students[i] = student
@@ -61,6 +67,12 @@ class StudentEndpoint {
         val students = MockedRespository.students
         val student = students
                 .firstOrNull { it.index == index }
+
+        if (student == null) {
+            val message = "Student with index $index not found"
+            return Response.status(Response.Status.NOT_FOUND).entity(message).build()
+        }
+
 
         students.remove(student)
 
@@ -112,16 +124,26 @@ class GradeForStudentEndpoint {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     fun put(@PathParam("index") index: Int, @PathParam("id") id: String, grade: Grade): Response {
-        val students = MockedRespository.students
+        val grades = MockedRespository.students
                 .firstOrNull { it.index == index }
                 ?.grades
 
-        val oldGrade = students
-                ?.firstOrNull { it.id == id }
+        if (grades == null) {
+            val message = "Student with index $index not found"
+            return Response.status(Response.Status.NOT_FOUND).entity(message).build()
+        }
 
-        val index = students?.indexOf(oldGrade)
+        val oldGrade = grades
+                .firstOrNull { it.id == id }
 
-        students?.set(index!!, grade)
+        if (oldGrade == null) {
+            val message = "Grade $id not found"
+            return Response.status(Response.Status.NOT_FOUND).entity(message).build()
+        }
+
+        val i = grades.indexOf(oldGrade)
+
+        grades[i] = grade
 
         val message = "Grade ${grade.value} has been updated"
         return Response.status(Response.Status.ACCEPTED).entity(message).build()
@@ -134,12 +156,22 @@ class GradeForStudentEndpoint {
                 .firstOrNull { it.index == index }
                 ?.grades
 
+        if (grades == null) {
+            val message = "Student with index $index not found"
+            return Response.status(Response.Status.NOT_FOUND).entity(message).build()
+        }
+
         val grade = grades
-                ?.firstOrNull { it.id == id }
+                .firstOrNull { it.id == id }
 
-        grades?.remove(grade)
+        if (grade == null) {
+            val message = "Grade $id not found"
+            return Response.status(Response.Status.NOT_FOUND).entity(message).build()
+        }
 
-        val message = "Grade ${grade?.value} has been removed"
+        grades.remove(grade)
+
+        val message = "Grade ${grade.value} has been removed"
         return Response.status(Response.Status.ACCEPTED).entity(message).build()
     }
 }
@@ -183,6 +215,12 @@ class SubjectEndpoint {
         val subjects = MockedRespository.subjects
         val oldSubject = subjects
                 .firstOrNull { it.id == id }
+
+        if (oldSubject == null) {
+            val message = "Subject ${subject.name} not found"
+            return Response.status(Response.Status.NOT_FOUND).entity(message).build()
+        }
+
         val index = subjects.indexOf(oldSubject)
 
         subjects[index] = subject
@@ -198,9 +236,14 @@ class SubjectEndpoint {
         val subject = subjects
                 .firstOrNull { it.id == id }
 
-        subjects.remove(subject);
+        if (subject == null) {
+            val message = "Subject with id $id not found"
+            return Response.status(Response.Status.NOT_FOUND).entity(message).build()
+        }
 
-        val message = "Subject ${subject?.name} has been removed"
+        subjects.remove(subject)
+
+        val message = "Subject ${subject.name} has been removed"
         return Response.status(Response.Status.ACCEPTED).entity(message).build()
     }
 }
