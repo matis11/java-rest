@@ -8,11 +8,13 @@ import java.util.*
 
 object MockedRespository {
     val subjects = mutableListOf(
-            Subject(name = "TPAL", lecturer = "T.Pawlak")
+            Subject(name = "TPAL", lecturer = "T.Pawlak"),
+            Subject(name = "Metody Probabilistyczne", lecturer = "J.Carbon")
     )
 
     val grades = mutableListOf(
-            Grade(subject = subjects[0], value = 2.0F, creationDate = Date.from(Instant.now()))
+            Grade(subject = subjects[0], value = 5.0F, creationDate = Date.from(Instant.now())),
+            Grade(subject = subjects[1], value = 2.0F, creationDate = Date.from(Instant.now()))
     )
 
     val students = mutableListOf(
