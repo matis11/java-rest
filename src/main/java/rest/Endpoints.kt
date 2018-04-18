@@ -4,6 +4,7 @@ import models.Grade
 import models.Student
 import models.Subject
 import repositories.MockedRespository
+import java.net.URI
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
@@ -98,12 +99,12 @@ class ListGradesForStudentEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     fun post(grade: Grade, @PathParam("index") index: String): Response {
         MockedRespository.students
-                .firstOrNull { it.index.toString() == index }
+                .firstOrNull { it.index == index }
                 ?.grades
                 ?.add(grade)
 
         val message = "Grade ${grade.value} has been added"
-        return Response.status(Response.Status.CREATED).entity(message).build()
+        return Response.created(URI.create("/students/$index")).build()
     }
 }
 
