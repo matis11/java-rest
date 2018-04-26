@@ -26,7 +26,7 @@ data class Student(
         @XmlTransient
         var id: ObjectId = ObjectId(),
         @field:XmlElement(name = "index")
-        var index: String = java.util.UUID.randomUUID().toString(),
+        var index: Int = 1,
         @field:XmlElement(name = "name")
         val name: String = "",
         @field:XmlElement(name = "surname")

@@ -25,6 +25,7 @@ class ListStudentsEndpoint {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     fun post(student: Student): Response {
+        student.index = repository.newestIndex
         repository.saveStudent(student)
 
         val message = "Student ${student.name} ${student.surname} has been added"
@@ -39,7 +40,7 @@ class StudentEndpoint {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    fun get(@PathParam("index") index: String): Response {
+    fun get(@PathParam("index") index: Int): Response {
         val student = repository.students
                 .firstOrNull { it.index == index }
 
@@ -48,7 +49,7 @@ class StudentEndpoint {
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    fun put(@PathParam("index") index: String, student: Student): Response {
+    fun put(@PathParam("index") index: Int, student: Student): Response {
         val students = repository.students
         val oldStudent = students
                 .firstOrNull { it.index == index }
@@ -68,7 +69,7 @@ class StudentEndpoint {
 
     @DELETE
     @Produces(MediaType.TEXT_PLAIN)
-    fun delete(@PathParam("index") index: String): Response {
+    fun delete(@PathParam("index") index: Int): Response {
         val students = repository.students
         val student = students
                 .firstOrNull { it.index == index }
@@ -93,7 +94,7 @@ class ListGradesForStudentEndpoint {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    fun get(@PathParam("index") index: String): Response {
+    fun get(@PathParam("index") index: Int): Response {
         val grades = repository.students
                 .firstOrNull { it.index == index }
                 ?.grades
@@ -119,7 +120,7 @@ class GradeForStudentEndpoint {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    fun get(@PathParam("index") index: String, @PathParam("id") id: String): Response {
+    fun get(@PathParam("index") index: Int, @PathParam("id") id: String): Response {
         val grade = repository.students
                 .firstOrNull { it.index == index }
                 ?.grades
@@ -130,7 +131,7 @@ class GradeForStudentEndpoint {
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    fun put(@PathParam("index") index: String, @PathParam("id") id: String, grade: Grade): Response {
+    fun put(@PathParam("index") index: Int, @PathParam("id") id: String, grade: Grade): Response {
         val grades = repository.students
                 .firstOrNull { it.index == index }
                 ?.grades
@@ -158,7 +159,7 @@ class GradeForStudentEndpoint {
 
     @DELETE
     @Produces(MediaType.TEXT_PLAIN)
-    fun delete(@PathParam("index") index: String, @PathParam("id") id: String): Response {
+    fun delete(@PathParam("index") index: Int, @PathParam("id") id: String): Response {
         val grades = repository.students
                 .firstOrNull { it.index == index }
                 ?.grades

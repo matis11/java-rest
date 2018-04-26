@@ -5,9 +5,9 @@ import com.mongodb.MongoClient
 import com.mongodb.client.MongoDatabase
 import models.Grade
 import models.Student
+import models.StudentIndex
 import models.Subject
 import org.mongodb.morphia.Datastore
-import org.mongodb.morphia.Key
 import org.mongodb.morphia.Morphia
 import java.time.Instant
 import java.util.*
@@ -31,6 +31,17 @@ object MongoDBRepository : Repository {
         get() = datastore.find(Student::class.java)
                 .retrieveKnownFields()
                 .asList()
+
+    val newestIndex: Int
+        get() {
+            val index = datastore
+            val createQuery = datastore.createQuery(StudentIndex::class.java)
+            val update = datastore.createUpdateOperations(StudentIndex::class.java)
+                    .disableValidation()
+                    .inc("index")
+
+            return datastore.findAndModify(createQuery, update).index
+        }
 
     fun saveStudent(student: Student) = datastore.save(student)
 
@@ -84,12 +95,15 @@ object MongoDBRepository : Repository {
         )
 
         val mockedStudents = mutableListOf(
-                Student(name = "Mateusz", surname = "Bartos", birthday = Date.from(Instant.now()), grades = mockedGrades),
-                Student(name = "Bartosz", surname = "Mat", birthday = Date.from(Instant.now()), grades = mockedGrades)
+                Student(index = 1, name = "Mateusz", surname = "Bartos", birthday = Date.from(Instant.now()), grades = mockedGrades),
+                Student(index = 2, name = "Bartosz", surname = "Mat", birthday = Date.from(Instant.now()), grades = mockedGrades)
         )
+
+        val mockedNewestIndex = StudentIndex(index = 2)
 
         datastore.save(mockedSubjects)
         datastore.save(mockedStudents)
+        datastore.save(mockedNewestIndex)
     }
 
 }
