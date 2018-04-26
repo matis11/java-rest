@@ -181,7 +181,7 @@ class GradeForStudentEndpoint {
 class ListSubjectsEndpoint {
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON )
     fun get(): Response {
         val subjects = MockedRespository.subjects
 
