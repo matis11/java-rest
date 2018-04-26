@@ -31,7 +31,8 @@ data class Student(
         val name: String = "",
         @field:XmlElement(name = "surname")
         val surname: String = "",
-        @field:XmlElement(name = "birthday")
+        @field:XmlElement(name = "birth" +
+                "day")
         val birthday: Date = Date.from(Instant.now()),
         @field:XmlElement(name = "grades")
         val grades: MutableList<Grade> = mutableListOf()

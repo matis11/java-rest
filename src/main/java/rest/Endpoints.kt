@@ -63,7 +63,7 @@ class StudentEndpoint {
         repository.saveStudent(student)
 
         val message = "Student ${student.name} ${student.surname} has been updated"
-        return Response.status(Response.Status.ACCEPTED).entity(message).build()
+        return Response.status(Response.Status.NO_CONTENT).entity(message).build()
     }
 
     @DELETE
@@ -82,7 +82,7 @@ class StudentEndpoint {
         repository.deleteStudent(student)
 
         val message = "Student ${student?.name} ${student?.surname} has been removed"
-        return Response.status(Response.Status.ACCEPTED).entity(message).build()
+        return Response.status(Response.Status.NO_CONTENT).entity(message).build()
     }
 }
 
@@ -153,7 +153,7 @@ class GradeForStudentEndpoint {
         repository.saveGrade(grade)
 
         val message = "Grade ${grade.value} has been updated"
-        return Response.status(Response.Status.ACCEPTED).entity(message).build()
+        return Response.status(Response.Status.NO_CONTENT).entity(message).build()
     }
 
     @DELETE
@@ -179,7 +179,7 @@ class GradeForStudentEndpoint {
         repository.deleteGrade(grade)
 
         val message = "Grade ${grade.value} has been removed"
-        return Response.status(Response.Status.ACCEPTED).entity(message).build()
+        return Response.status(Response.Status.NO_CONTENT).entity(message).build()
     }
 }
 
@@ -237,7 +237,7 @@ class SubjectEndpoint {
         repository.saveSubject(subject)
 
         val message = "Subject ${subject.name} has been updated"
-        return Response.status(Response.Status.ACCEPTED).entity(message).build()
+        return Response.status(Response.Status.NO_CONTENT).entity(message).build()
     }
 
     @DELETE
@@ -255,6 +255,6 @@ class SubjectEndpoint {
         repository.deleteSubject(subject)
 
         val message = "Subject ${subject.name} has been removed"
-        return Response.status(Response.Status.ACCEPTED).entity(message).build()
+        return Response.status(Response.Status.NO_CONTENT).entity(message).build()
     }
 }
