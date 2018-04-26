@@ -1,18 +1,23 @@
 package models
 
+import org.bson.types.ObjectId
+import org.mongodb.morphia.annotations.*
 import java.time.Instant
 import java.util.*
-import javax.xml.bind.annotation.XmlAccessType
-import javax.xml.bind.annotation.XmlAccessorType
-import javax.xml.bind.annotation.XmlElement
-import javax.xml.bind.annotation.XmlRootElement
+import javax.xml.bind.annotation.*
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter
 
-
+@Entity("grade")
+@Indexes(
+        Index(value = "index", fields = [(Field("id"))])
+)
 @XmlRootElement(name = "grade")
 @XmlAccessorType(XmlAccessType.FIELD)
 data class Grade(
+        @Id
         @field:XmlElement(name = "id")
-        var id: String = java.util.UUID.randomUUID().toString(),
+        @XmlJavaTypeAdapter(ObjectIdJaxbAdapter::class)
+        var id: ObjectId = ObjectId(),
         @field:XmlElement(name = "subject")
         val subject: Subject? = null,
         @field:XmlElement(name = "value")

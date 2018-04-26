@@ -1,7 +1,9 @@
 package models
 
+import org.bson.types.ObjectId
 import org.glassfish.jersey.linking.InjectLink
 import org.glassfish.jersey.linking.InjectLinks
+import org.mongodb.morphia.annotations.*
 import rest.GradeForStudentEndpoint
 import rest.StudentEndpoint
 import java.util.*
@@ -9,11 +11,17 @@ import javax.ws.rs.core.Link
 import javax.xml.bind.annotation.*
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter
 
+@Entity("student")
+@Indexes(
+        Index(value = "index", fields = [Field("id")])
+)
 @XmlRootElement(name = "student")
 @XmlAccessorType(XmlAccessType.FIELD)
 data class Student(
+        @Id
         @field:XmlElement(name = "id")
-        var id: String = java.util.UUID.randomUUID().toString(),
+        @XmlTransient
+        var id: ObjectId = ObjectId(),
         @field:XmlElement(name = "index")
         var index: String = java.util.UUID.randomUUID().toString(),
         @field:XmlElement(name = "name")
