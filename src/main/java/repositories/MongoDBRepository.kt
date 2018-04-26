@@ -15,6 +15,34 @@ object MongoDBRepository : Repository {
     private lateinit var database: MongoDatabase
     private lateinit var datastore: Datastore
 
+    override val grades: MutableList<Grade>
+        get() = datastore.find(Grade::class.java)
+                .retrieveKnownFields()
+                .asList()
+
+    override val subjects: MutableList<Subject>
+        get() = datastore.find(Subject::class.java)
+                .retrieveKnownFields()
+                .asList()
+
+    override val students: MutableList<Student>
+        get() = datastore.find(Student::class.java)
+                .retrieveKnownFields()
+                .asList()
+
+    fun saveStudent(student: Student) = datastore.save(student)
+
+    fun saveSubject(subject: Subject) = datastore.save(subject)
+
+    fun saveGrade(grade: Grade) = datastore.save(grade)
+
+    fun deleteStudent(student: Student) = datastore.delete(student)
+
+    fun deleteSubject(subject: Subject) = datastore.delete(subject)
+
+    fun deleteGrade(grade: Grade) = datastore.delete(grade)
+
+
     init {
         try {
             val mongoClient = MongoClient("localhost", 27017)
@@ -24,24 +52,34 @@ object MongoDBRepository : Repository {
             datastore = morphia.createDatastore(MongoClient(), "database")
             datastore.ensureIndexes()
 
+            initMockedDatabase()
+
         } catch (e: Exception) {
             println("Connection to mongodb@localhost:27017 cannot be estabilished")
+            println(e)
         }
     }
 
-    override val subjects = mutableListOf(
-            Subject(name = "TPAL", lecturer = "T.Pawlak"),
-            Subject(name = "Metody Probabilistyczne", lecturer = "J.Carbon")
-    )
+    private fun initMockedDatabase() {
+        database.drop()
 
-    override val grades = mutableListOf(
-            Grade(subject = subjects[0], value = 5.0F, creationDate = Date.from(Instant.now())),
-            Grade(subject = subjects[1], value = 2.0F, creationDate = Date.from(Instant.now()))
-    )
+        val mockedSubjects = mutableListOf(
+                Subject(name = "TPAL", lecturer = "T.Pawlak"),
+                Subject(name = "Metody Probabilistyczne", lecturer = "J.Carbon")
+        )
 
-    override val students = mutableListOf(
-            Student(name = "Mateusz", surname = "Bartos", birthday = Date.from(Instant.now()), grades = grades),
-            Student(name = "Bartosz", surname = "Mat", birthday = Date.from(Instant.now()), grades = grades)
-    )
+        val mockedGrades = mutableListOf(
+                Grade(subject = mockedSubjects[0], value = 5.0F, creationDate = Date.from(Instant.now())),
+                Grade(subject = mockedSubjects[1], value = 2.0F, creationDate = Date.from(Instant.now()))
+        )
+
+        val mockedStudents = mutableListOf(
+                Student(name = "Mateusz", surname = "Bartos", birthday = Date.from(Instant.now()), grades = mockedGrades),
+                Student(name = "Bartosz", surname = "Mat", birthday = Date.from(Instant.now()), grades = mockedGrades)
+        )
+
+        datastore.save(mockedSubjects)
+        datastore.save(mockedStudents)
+    }
 
 }

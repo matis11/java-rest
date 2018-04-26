@@ -1,5 +1,6 @@
 package models
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import org.bson.types.ObjectId
 import org.glassfish.jersey.linking.InjectLink
 import org.glassfish.jersey.linking.InjectLinks
@@ -17,6 +18,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter
 @XmlAccessorType(XmlAccessType.FIELD)
 data class Subject(
         @Id
+        @JsonIgnore
         @field:XmlElement(name = "id")
         var id: ObjectId = ObjectId(),
         @field:XmlElement(name = "name")

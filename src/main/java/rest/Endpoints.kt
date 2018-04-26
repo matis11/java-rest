@@ -4,8 +4,7 @@ import models.Grade
 import models.Student
 import models.Subject
 import org.bson.types.ObjectId
-import repositories.MockedRepository
-import repositories.Repository
+import repositories.MongoDBRepository
 import java.net.URI
 import javax.ws.rs.*
 import javax.ws.rs.core.MediaType
@@ -14,7 +13,7 @@ import javax.ws.rs.core.Response
 @Path("students")
 class ListStudentsEndpoint {
 
-    private val repository = MockedRepository
+    private val repository = MongoDBRepository
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -26,8 +25,7 @@ class ListStudentsEndpoint {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     fun post(student: Student): Response {
-        repository.students
-                .add(student)
+        repository.saveStudent(student)
 
         val message = "Student ${student.name} ${student.surname} has been added"
         return Response.status(Response.Status.CREATED).entity(message).build()
@@ -37,13 +35,13 @@ class ListStudentsEndpoint {
 @Path("students/{index}")
 class StudentEndpoint {
 
-    private val repository = MockedRepository
+    private val repository = MongoDBRepository
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     fun get(@PathParam("index") index: String): Response {
         val student = repository.students
-                .firstOrNull { it.index.toString() == index }
+                .firstOrNull { it.index == index }
 
         return Response.status(if (student == null) Response.Status.NOT_FOUND else Response.Status.OK).entity(student).build()
     }
@@ -62,7 +60,7 @@ class StudentEndpoint {
 
         val i = students.indexOf(oldStudent)
         student.index = index
-        students[i] = student
+        repository.saveStudent(student)
 
         val message = "Student ${student.name} ${student.surname} has been updated"
         return Response.status(Response.Status.ACCEPTED).entity(message).build()
@@ -81,7 +79,7 @@ class StudentEndpoint {
         }
 
 
-        students.remove(student)
+        repository.deleteStudent(student)
 
         val message = "Student ${student?.name} ${student?.surname} has been removed"
         return Response.status(Response.Status.ACCEPTED).entity(message).build()
@@ -91,13 +89,13 @@ class StudentEndpoint {
 @Path("students/{index}/grades")
 class ListGradesForStudentEndpoint {
 
-    private val repository = MockedRepository
+    private val repository = MongoDBRepository
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     fun get(@PathParam("index") index: String): Response {
         val grades = repository.students
-                .firstOrNull { it.index.toString() == index }
+                .firstOrNull { it.index == index }
                 ?.grades
 
         return Response.status(if (grades == null) Response.Status.NOT_FOUND else Response.Status.OK).entity(grades).build()
@@ -106,10 +104,8 @@ class ListGradesForStudentEndpoint {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     fun post(grade: Grade, @PathParam("index") index: String): Response {
-        repository.students
-                .firstOrNull { it.index == index }
-                ?.grades
-                ?.add(grade)
+
+        repository.saveGrade(grade)
 
         val message = "Grade ${grade.value} has been added"
         return Response.created(URI.create("/students/$index")).build()
@@ -119,13 +115,13 @@ class ListGradesForStudentEndpoint {
 @Path("students/{index}/grades/{id}")
 class GradeForStudentEndpoint {
 
-    private val repository = MockedRepository
+    private val repository = MongoDBRepository
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     fun get(@PathParam("index") index: String, @PathParam("id") id: String): Response {
         val grade = repository.students
-                .firstOrNull { it.index.toString() == index }
+                .firstOrNull { it.index == index }
                 ?.grades
                 ?.firstOrNull { it.id.toString() == id }
 
@@ -154,7 +150,7 @@ class GradeForStudentEndpoint {
 
         val i = grades.indexOf(oldGrade)
         grade.id = ObjectId(id)
-        grades[i] = grade
+        repository.saveGrade(grade)
 
         val message = "Grade ${grade.value} has been updated"
         return Response.status(Response.Status.ACCEPTED).entity(message).build()
@@ -180,7 +176,7 @@ class GradeForStudentEndpoint {
             return Response.status(Response.Status.NOT_FOUND).entity(message).build()
         }
 
-        grades.remove(grade)
+        repository.deleteGrade(grade)
 
         val message = "Grade ${grade.value} has been removed"
         return Response.status(Response.Status.ACCEPTED).entity(message).build()
@@ -190,7 +186,7 @@ class GradeForStudentEndpoint {
 @Path("subjects")
 class ListSubjectsEndpoint {
 
-    private val repository = MockedRepository
+    private val repository = MongoDBRepository
 
     @GET
     @Produces(MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON )
@@ -203,7 +199,7 @@ class ListSubjectsEndpoint {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     fun post(subject: Subject): Response {
-        repository.subjects.add(subject)
+        repository.saveSubject(subject)
 
         val message = "Subject ${subject.name} has been added"
         return Response.status(Response.Status.CREATED).entity(message).build()
@@ -213,7 +209,7 @@ class ListSubjectsEndpoint {
 @Path("subjects/{id}")
 class SubjectEndpoint {
 
-    private val repository = MockedRepository
+    private val repository = MongoDBRepository
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -238,7 +234,7 @@ class SubjectEndpoint {
 
         val index = subjects.indexOf(oldSubject)
         subject.id = ObjectId(id)
-        subjects[index] = subject
+        repository.saveSubject(subject)
 
         val message = "Subject ${subject.name} has been updated"
         return Response.status(Response.Status.ACCEPTED).entity(message).build()
@@ -256,7 +252,7 @@ class SubjectEndpoint {
             return Response.status(Response.Status.NOT_FOUND).entity(message).build()
         }
 
-        subjects.remove(subject)
+        repository.deleteSubject(subject)
 
         val message = "Subject ${subject.name} has been removed"
         return Response.status(Response.Status.ACCEPTED).entity(message).build()

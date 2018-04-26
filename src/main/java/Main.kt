@@ -9,13 +9,6 @@ import java.util.logging.ConsoleHandler
 import java.util.logging.Level
 import java.util.logging.Logger
 import javax.ws.rs.ext.ContextResolver
-import com.mongodb.client.MongoDatabase
-import com.mongodb.MongoClient
-import com.mongodb.MongoClientURI
-import com.mongodb.ServerAddress
-import java.util.Arrays
-
-
 
 
 object Main : ResourceConfig() {

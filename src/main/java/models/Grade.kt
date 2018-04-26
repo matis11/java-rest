@@ -1,5 +1,6 @@
 package models
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import org.bson.types.ObjectId
 import org.mongodb.morphia.annotations.*
 import java.time.Instant
@@ -15,9 +16,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter
 @XmlAccessorType(XmlAccessType.FIELD)
 data class Grade(
         @Id
+        @JsonIgnore
         @field:XmlElement(name = "id")
         @XmlJavaTypeAdapter(ObjectIdJaxbAdapter::class)
         var id: ObjectId = ObjectId(),
+        @Reference
         @field:XmlElement(name = "subject")
         val subject: Subject? = null,
         @field:XmlElement(name = "value")
