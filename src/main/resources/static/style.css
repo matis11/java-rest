@@ -1,8 +1,6 @@
 body {
-    background: -webkit-linear-gradient(left, orange, yellow, green, cyan, blue, violet); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, orange, yellow, green, cyan, blue, violet); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, orange, yellow, green, cyan, blue, violet); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to right, orange, yellow, green, cyan, blue, violet); /* Standard syntax (must be last) */
+    background: #ededed;
+    margin: 0;
 }
 
 #grades {
@@ -35,4 +33,221 @@ body {
 
 #subjects:target {
     display: block;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.dark-blue {
+    background-color: #0B3CFF;
+    color: white;
+}
+
+.blue {
+    background-color: #0A71E8;
+    color: white;
+}
+
+.light-blue {
+    background-color: #18BFFF;
+    color: white;
+}
+
+.blue-or-green {
+    background-color: #0AE5E8;
+    color: white;
+}
+
+.green {
+    background-color: #0BFFBD;
+    color: white;
+}
+
+h1 {
+    font-size: 2em;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+header {
+    width: calc(100% - 30px);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 100px;
+    color: white;
+    padding: 10px 10px 10px 20px;
+}
+
+header > img {
+    width: 100px;
+    height: 100px;
+}
+
+header > h1 {
+    margin-left: 10px;
+}
+
+.rainbow {
+    background: -webkit-linear-gradient(left, orange, yellow, green, cyan, blue, violet); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, orange, yellow, green, cyan, blue, violet); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, orange, yellow, green, cyan, blue, violet); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, orange, yellow, green, cyan, blue, violet); /* Standard syntax (must be last) */
+}
+
+main {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+nav {
+    flex-grow: 0;
+    width: 200px;
+    min-height: 100%;
+}
+
+article {
+    flex-grow: 1;
+    padding: 10px;
+}
+
+li {
+    list-style: none;
+    min-height: 50px;
+    line-height: 50px;
+    font-size: 1.2em;
+    padding-left: 10px;
+}
+
+footer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: 80px;
+    color: white;
+}
+
+footer > span {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.epilepsy {
+    background: linear-gradient(331deg, #fd0000, #fdf800, #18fd00, #00f0fd, #0027fd, #8c00fd, #fd00a5, #fd0000);
+    background-size: 1600% 1600%;
+
+    -webkit-animation: AnimationName 7s ease infinite;
+    -moz-animation: AnimationName 7s ease infinite;
+    animation: AnimationName 7s ease infinite;
+}
+
+@-webkit-keyframes AnimationName {
+    0% {
+        background-position: 0% 48%
+    }
+    50% {
+        background-position: 100% 53%
+    }
+    100% {
+        background-position: 0% 48%
+    }
+}
+
+@-moz-keyframes AnimationName {
+    0% {
+        background-position: 0% 48%
+    }
+    50% {
+        background-position: 100% 53%
+    }
+    100% {
+        background-position: 0% 48%
+    }
+}
+
+@keyframes AnimationName {
+    0% {
+        background-position: 0% 48%
+    }
+    50% {
+        background-position: 100% 53%
+    }
+    100% {
+        background-position: 0% 48%
+    }
+}
+
+thead {
+    background-color: #0A71E8;
+}
+
+tr:nth-child(even) {
+    background-color: #0AE5E8;
+}
+
+tr:nth-child(odd) {
+    background-color: #8c00fd;
+}
+
+tr:hover {
+    border: 2px solid white;
+    background-color: #fd00a5;
+}
+
+input {
+    border: none;
+    background: none;
+    font-size: 1em;
+    color: black;
+    width: 100%;
+    height: 100%;
+    font-family: sans-serif;
+}
+
+input::placeholder {
+    color: black;
+}
+
+input:invalid {
+    background-color: red;
+    border: 1px solid red;
+}
+
+@media print {
+    * {
+        background-color: white;
+    }
+
+    input:invalid {
+        background-color: white;
+        border: none;
+    }
+
+    thead > tr > td > input,
+    thead > tr > td:last-child {
+        display: none;
+    }
+
+    header, footer, nav, .search, button {
+        display: none;
+    }
+
+    tr {
+        border-bottom: 2px solid black;
+    }
 }

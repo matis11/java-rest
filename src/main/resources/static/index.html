@@ -2,201 +2,216 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Student grade manager</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header>
+<header class="dark-blue">
     <img alt="logo" src="put.png">
     <h1>Student Grade Manager</h1>
-    <nav>
+</header>
+
+<main>
+    <nav class="blue-or-green">
         <ul>
             <li><a href="#home">Home</a></li>
             <li><a href="#students">Students</a></li>
             <li><a href="#subjects">Subjects</a></li>
         </ul>
     </nav>
-</header>
 
-<article class="main" id="home">
-    <h1>Witaj internauto na mojej stronie!!!</h1>
-</article>
+    <article class="main" id="home">
+        <h1>Witaj internauto na mojej stronie!!!</h1>
+    </article>
 
-<article class="main" id="grades">
-    <h1>Oceny</h1>
+    <article class="main" id="grades">
+        <h1>Oceny</h1>
 
-    <form>
-        <table>
-            <thead>
-            <tr>
-                <td>
-                    <span>Index</span>
-                    <input type="number">
-                    <button>[OK]</button>
-                </td>
-                <td>
-                    <span>First name</span>
-                    <input type="text" placeholder="Filtruj">
-                    <button>[OK]</button>
-                </td>
-                <td>
-                    <span>Last name</span>
-                    <input type="text" placeholder="Filtruj">
-                    <button>[OK]</button>
-                </td>
-                <td>
-                    <span>Grade</span>
-                    <input type="number">
-                    <button>[OK]</button>
-                </td>
-                <td>
-                    <span>Date</span>
-                    <input type="date">
-                    <button>[OK]</button>
-                </td>
-                <td>
-                    <span>Subject</span>
-                    <input type="text" placeholder="Filtruj">
-                    <button>[OK]</button>
-                </td>
-                <td>
-                    <span>Actions</span>
-                </td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td><span>122437</span></td>
-                <td><input type="text" value="Mateusz" placeholder="First Name"></td>
-                <td><input type="text" value="Bartos" required placeholder="Last name"></td>
-                <td><input type="number" value="5.0" required min="2.0" max="5.0" placeholder="Grade" step="0.5"></td>
-                <td><input type="date" value="2018-05-05" required></td>
-                <td>
-                    <select>
-                        <option value="TPAS">TPAS</option>
-                        <option value="TPAI">TPAI</option>
-                    </select>
-                </td>
-                <td>
-                    <button>[DEL]</button>
-                    <button>[MORE]</button>
-                    <button>[EDIT]</button>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="6">
-                    <button>[ADD]</button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </form>
-</article>
+        <form>
+            <table>
+                <thead>
+                <tr class="search">
+                    <td>
+                        <span>Index</span>
+                        <input type="number">
+                        <button>[OK]</button>
+                    </td>
+                    <td>
+                        <span>First name</span>
+                        <input type="text" placeholder="Filtruj">
+                        <button>[OK]</button>
+                    </td>
+                    <td>
+                        <span>Last name</span>
+                        <input type="text" placeholder="Filtruj">
+                        <button>[OK]</button>
+                    </td>
+                    <td>
+                        <span>Grade</span>
+                        <input type="number">
+                        <button>[OK]</button>
+                    </td>
+                    <td>
+                        <span>Date</span>
+                        <input type="date">
+                        <button>[OK]</button>
+                    </td>
+                    <td>
+                        <span>Subject</span>
+                        <input type="text" placeholder="Filtruj">
+                        <button>[OK]</button>
+                    </td>
+                    <td>
+                        <span>Actions</span>
+                    </td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><span>122437</span></td>
+                    <td><input type="text" value="Mateusz" placeholder="First Name" minlength="1"></td>
+                    <td><input type="text" value="Bartos" required placeholder="Last name" minlength="1"></td>
+                    <td><input type="number" value="5.0" required min="2.0" max="5.0" placeholder="Grade" step="0.5"
+                               minlength="1"></td>
+                    <td><input type="date" value="2018-05-05" required minlength="1"></td>
+                    <td>
+                        <select>
+                            <option value="TPAS">TPAS</option>
+                            <option value="TPAI">TPAI</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button>[DEL]</button>
+                        <button>[MORE]</button>
+                        <button>[EDIT]</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6">
+                        <button>[ADD]</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </article>
 
-<article class="main" id="students">
-    <h1>Studenci</h1>
+    <article class="main" id="students">
+        <h1>Studenci</h1>
 
-    <form>
-        <table>
-            <thead>
-            <tr>
-                <td>
-                    <span>Index</span>
-                    <input type="number" placeholder="Filtruj">
-                    <button>[OK]</button>
-                </td>
-                <td>
-                    <span>First name</span>
-                    <input type="text" placeholder="Filtruj">
-                    <button>[OK]</button>
-                </td>
-                <td>
-                    <span>Last name</span>
-                    <input type="text" placeholder="Filtruj">
-                    <button>[OK]</button>
-                </td>
-                <td>
-                    <span>Date</span>
-                    <input type="date">
-                    <button>[OK]</button>
-                </td>
-                <td>
-                    <span>Actions</span>
-                </td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td><span>122437</span></td>
-                <td><input type="text" value="Mateusz" placeholder="First Name"></td>
-                <td><input type="text" value="Bartos" required placeholder="Last name"></td>
-                <td><input type="date" value="2018-05-05" required></td>
-                <td>
-                    <button onclick="location.href='#grades'">[GRADES]</button>
-                    <button>[DEL]</button>
-                    <button>[MORE]</button>
-                    <button>[EDIT]</button>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <button>[ADD]</button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </form>
-</article>
+        <form>
+            <table>
+                <thead>
+                <tr class="search">
+                    <td>
+                        <span>Index</span>
+                        <input type="number" placeholder="Filtruj">
+                        <button>[OK]</button>
+                    </td>
+                    <td>
+                        <span>First name</span>
+                        <input type="text" placeholder="Filtruj">
+                        <button>[OK]</button>
+                    </td>
+                    <td>
+                        <span>Last name</span>
+                        <input type="text" placeholder="Filtruj">
+                        <button>[OK]</button>
+                    </td>
+                    <td>
+                        <span>Date</span>
+                        <input type="date">
+                        <button>[OK]</button>
+                    </td>
+                    <td>
+                        <span>Actions</span>
+                    </td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><span>122437</span></td>
+                    <td><input type="text" value="Mateusz" placeholder="First Name" minlength="1"></td>
+                    <td><input type="text" value="Bartos" required placeholder="Last name" minlength="1"></td>
+                    <td><input type="date" value="2018-05-05" required minlength="1"></td>
+                    <td>
+                        <button onclick="location.href='#grades'">[GRADES]</button>
+                        <button>[DEL]</button>
+                        <button>[MORE]</button>
+                        <button>[EDIT]</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button>[ADD]</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </article>
 
-<article class="main" id="subjects">
-    <h1>Przedmioty</h1>
+    <article class="main" id="subjects">
+        <h1>Przedmioty</h1>
 
-    <form>
-        <table>
-            <thead>
-            <tr>
-                <td>
-                    <span>Id</span>
-                    <input type="number" placeholder="Filtruj">
-                    <button>[OK]</button>
-                </td>
-                <td>
-                    <span>Name</span>
-                    <input type="text" placeholder="Filtruj">
-                    <button>[OK]</button>
-                </td>
-                <td>
-                    <span>Mentor</span>
-                    <input type="text" placeholder="Filtruj">
-                    <button>[OK]</button>
-                </td>
-                <td>
-                    <span>Actions</span>
-                </td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td><span>1</span></td>
-                <td><input type="text" value="TPAS" placeholder="Name"></td>
-                <td><input type="text" value="T.Pawlak" required placeholder="Mentor"></td>
-                <td>
-                    <button>[DEL]</button>
-                    <button>[MORE]</button>
-                    <button>[EDIT]</button>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <button>[ADD]</button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </form>
-</article>
+        <form>
+            <table>
+                <thead>
+                <tr>
+                    <td>
+                        <span>Id</span>
+                        <input type="number" placeholder="Filtruj">
+                        <button>[OK]</button>
+                    </td>
+                    <td>
+                        <span>Name</span>
+                        <input type="text" placeholder="Filtruj">
+                        <button>[OK]</button>
+                    </td>
+                    <td>
+                        <span>Mentor</span>
+                        <input type="text" placeholder="Filtruj">
+                        <button>[OK]</button>
+                    </td>
+                    <td>
+                        <span>Actions</span>
+                    </td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><span>1</span></td>
+                    <td><input type="text" value="TPAS" placeholder="Name" minlength="1"></td>
+                    <td><input type="text" value="T.Pawlak" required placeholder="Mentor" minlength="1"></td>
+                    <td>
+                        <button>[DEL]</button>
+                        <button>[MORE]</button>
+                        <button>[EDIT]</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td><span>2</span></td>
+                    <td><input type="text" value="TPAS" placeholder="Name" minlength="1"></td>
+                    <td><input type="text" value="T.Pawlak" required placeholder="Mentor" minlength="1"></td>
+                    <td>
+                        <button>[DEL]</button>
+                        <button>[MORE]</button>
+                        <button>[EDIT]</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button>[ADD]</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </article>
+</main>
 
-<footer>
+<footer class="epilepsy">
     <span>
         Mateusz Bartos
     </span>
