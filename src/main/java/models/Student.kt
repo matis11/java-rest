@@ -40,7 +40,7 @@ data class Student(
     @field:InjectLinks(value = [(InjectLink(resource = StudentEndpoint::class, rel = "parent")),
         (InjectLink(value = "/students/{index}", rel = "self")),
         InjectLink(resource = GradeForStudentEndpoint::class, rel = "grades")])
-    @field:XmlElement(name = "links")
+    @field:XmlElement(name = "link")
     @field:XmlElementWrapper(name = "links")
     @field:XmlJavaTypeAdapter(Link.JaxbAdapter::class)
     lateinit var links: List<Link>

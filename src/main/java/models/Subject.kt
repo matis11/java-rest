@@ -21,16 +21,17 @@ data class Subject(
         @JsonIgnore
         @field:XmlElement(name = "id")
         var id: ObjectId = ObjectId(),
+        @Indexed(name = "subjectId", unique = true)
+        private val subjectId: String = "",
         @field:XmlElement(name = "name")
         val name: String = "",
         @field:XmlElement(name = "lecturer")
         val lecturer: String = ""
 ) {
 
-    @field:InjectLinks(value = [InjectLink(resource = rest.SubjectEndpoint::class, rel = "parent"),
-        InjectLink(value = "/subjects/{id}", rel = "self")])
-    @field:XmlElement(name = "links")
-    @field:XmlElementWrapper(name = "links")
+    @field:InjectLinks(value = [InjectLink(resource = rest.SubjectEndpoint::class, method = "get", style = InjectLink.Style.ABSOLUTE, rel = "self")])
+    @XmlElement(name = "link")
+    @XmlElementWrapper(name = "links")
     @field:XmlJavaTypeAdapter(Link.JaxbAdapter::class)
     lateinit var links: List<Link>
 }

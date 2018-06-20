@@ -15,12 +15,14 @@ object Main : ResourceConfig() {
     private const val BASE_URI = "http://localhost:9998/"
 
     private fun startServer(): HttpServer {
+        val dateParamConverterProvider = DateParamConverterProvider("yyyy-MM-dd")
 
         val resourceConfig = ResourceConfig(rest.ListSubjectsEndpoint::class.java, rest.SubjectEndpoint::class.java,
                 rest.GradeForStudentEndpoint::class.java, rest.ListGradesForStudentEndpoint::class.java,
                 rest.ListStudentsEndpoint::class.java, rest.StudentEndpoint::class.java)
                 .register(ContextResolver<ObjectMapper> { ObjectMapper().registerModule(KotlinModule()) })
                 .register(DeclarativeLinkingFeature())
+                .register(DeclarativeLinkingFeature::class.java).register(dateParamConverterProvider).register(CustomHeaders::class.java)
                 .packages("rest")
 
         val l = Logger.getLogger("org.glassfish.grizzly.http.server.HttpHandler")

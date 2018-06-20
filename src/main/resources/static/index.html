@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Student grade manager</title>
     <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="scripts/jquery-2.2.4.js"></script>
+    <script type="text/javascript" src="scripts/knockout-3.4.0.js"></script>
+    <script type="text/javascript" src="scripts/knockout.mapping-latest.js"></script>
+
+    <script type="text/javascript" src="script.js"></script>
 </head>
 <body>
 <header class="dark-blue">
@@ -33,33 +38,23 @@
                 <thead>
                 <tr class="search">
                     <td>
-                        <span>Index</span>
-                        <input type="number">
+                        <span>Przedmiot</span>
+                        <input type="text">
                         <button>[OK]</button>
                     </td>
                     <td>
-                        <span>First name</span>
-                        <input type="text" placeholder="Filtruj">
-                        <button>[OK]</button>
-                    </td>
-                    <td>
-                        <span>Last name</span>
-                        <input type="text" placeholder="Filtruj">
+                        <span>Student</span>
+                        <input type="text">
                         <button>[OK]</button>
                     </td>
                     <td>
                         <span>Grade</span>
-                        <input type="number">
+                        <input type="number" data-bind="textInput: model.grades.queryParams.noteQuery">
                         <button>[OK]</button>
                     </td>
                     <td>
                         <span>Date</span>
-                        <input type="date">
-                        <button>[OK]</button>
-                    </td>
-                    <td>
-                        <span>Subject</span>
-                        <input type="text" placeholder="Filtruj">
+                        <input type="date" data-bind="textInput: model.grades.queryParams.dateQuery">
                         <button>[OK]</button>
                     </td>
                     <td>
@@ -68,30 +63,57 @@
                 </tr>
                 </thead>
                 <tbody>
+                <!-- ko foreach: grades -->
                 <tr>
-                    <td><span>122437</span></td>
-                    <td><input type="text" value="Mateusz" placeholder="First Name" minlength="1"></td>
-                    <td><input type="text" value="Bartos" required placeholder="Last name" minlength="1"></td>
-                    <td><input type="number" value="5.0" required min="2.0" max="5.0" placeholder="Grade" step="0.5"
-                               minlength="1"></td>
-                    <td><input type="date" value="2018-05-05" required minlength="1"></td>
+                    <!--<td>-->
+                    <!--<select required disabled data-bind="options: $parent.subjects,-->
+                    <!--optionsText: function(i) { return i.name(); },-->
+                    <!--optionsValue: function(i) { return i.subjectId(); },-->
+                    <!--optionsCaption: 'Choose subject...',-->
+                    <!--value: courseId"/>-->
+                    <!--</td>-->
+                    <!--<td>-->
+                    <!--<select required disabled data-bind="options: $parent.students,-->
+                    <!--optionsText: function(i) { return i.name() + ' ' + i.surname(); },-->
+                    <!--optionsValue: function(i) { return i.index(); },-->
+                    <!--optionsCaption: 'Choose student...',-->
+                    <!--value: student.index"/>-->
+                    <!--</td>-->
+                    <td><input placeholder="Note" type="number" data-bind="value: note" required step="0.5" min="2.0"
+                               max="5.0"/></td>
+                    <td><input type="date" data-bind="value: date" min="1950-01-01" max="2016-05-20" required/></td>
                     <td>
-                        <select>
-                            <option value="TPAS">TPAS</option>
-                            <option value="TPAI">TPAI</option>
-                        </select>
-                    </td>
-                    <td>
-                        <button>[DEL]</button>
-                        <button>[MORE]</button>
-                        <button>[EDIT]</button>
+                        <button data-bind="click: $parent.grades.delete">Delete</button>
                     </td>
                 </tr>
+                <!-- /ko -->
                 <tr>
-                    <td colspan="6">
-                        <button>[ADD]</button>
-                    </td>
+                    <form data-bind="submit: grades.add">
+                        <!--<td>-->
+                        <!--<select name="courseId" required data-bind="options: model.subjects,-->
+                        <!--optionsText: function(i) { return i.name(); },-->
+                        <!--optionsValue: function(i) { return i.subjectId(); },-->
+                        <!--optionsCaption: 'Choose subject...',-->
+                        <!--value: model.grades.selectedCourse,-->
+                        <!--enable: model.grades.isCourseEnable()"/>-->
+                        <!--</td>-->
+                        <!--<td>-->
+                        <!--<select name="index" required data-bind="options: model.students,-->
+                        <!--optionsText: function(i) { return i.name() + ' ' + i.surname(); },-->
+                        <!--optionsValue: function(i) { return i.index(); },-->
+                        <!--optionsCaption: 'Choose student...',-->
+                        <!--value: model.grades.selectedStudent,-->
+                        <!--enable: model.grades.isStudentEnable()"/>-->
+                        <!--</td>-->
+                        <td><input name="note" placeholder="Note" type="number" required step="0.5" min="2.0"
+                                   max="5.0"/></td>
+                        <td><input name="date" type="date" min="1950-01-01" max="2016-05-20" required/></td>
+                        <td>
+                            <button>Save</button>
+                        </td>
+                    </form>
                 </tr>
+
                 </tbody>
             </table>
         </form>
@@ -106,22 +128,25 @@
                 <tr class="search">
                     <td>
                         <span>Index</span>
-                        <input type="number" placeholder="Filtruj">
+                        <input type="number" placeholder="Filtruj"
+                               data-bind="textInput: model.students.queryParams.indexQuery">
                         <button>[OK]</button>
                     </td>
                     <td>
                         <span>First name</span>
-                        <input type="text" placeholder="Filtruj">
+                        <input type="text" placeholder="Filtruj"
+                               data-bind="textInput: model.students.queryParams.nameQuery">
                         <button>[OK]</button>
                     </td>
                     <td>
                         <span>Last name</span>
-                        <input type="text" placeholder="Filtruj">
+                        <input type="text" placeholder="Filtruj"
+                               data-bind="textInput: model.students.queryParams.surnameQuery">
                         <button>[OK]</button>
                     </td>
                     <td>
                         <span>Date</span>
-                        <input type="date">
+                        <input type="date" data-bind="textInput: model.students.queryParams.birthdayQuery">
                         <button>[OK]</button>
                     </td>
                     <td>
@@ -130,22 +155,34 @@
                 </tr>
                 </thead>
                 <tbody>
+                <!-- ko foreach: students-->
                 <tr>
-                    <td><span>122437</span></td>
-                    <td><input type="text" value="Mateusz" placeholder="First Name" minlength="1"></td>
-                    <td><input type="text" value="Bartos" required placeholder="Last name" minlength="1"></td>
-                    <td><input type="date" value="2018-05-05" required minlength="1"></td>
+                    <td><input type="number" data-bind="value: index" readonly required></td>
+                    <td><input type="text" data-bind="value: name" placeholder="First Name"
+                               minlength="1"></td>
+                    <td><input type="text" data-bind="value: surname" required placeholder="Last name"
+                               minlength="1"></td>
+                    <td><input type="number" data-bind="value: birthday" required minlength="1">
+                    </td>
                     <td>
                         <button onclick="location.href='#grades'">[GRADES]</button>
-                        <button>[DEL]</button>
-                        <button>[MORE]</button>
+                        <button data-bind="click: $parent.students.delete">[DEL]</button>
+                        <button data-bind="click: $parent.students.getGrades">[MORE]</button>
                         <button>[EDIT]</button>
                     </td>
                 </tr>
+                <!-- /ko -->
                 <tr>
-                    <td>
-                        <button>[ADD]</button>
-                    </td>
+                    <form data-bind="submit: students.add">
+                        <td><input name="index" placeholder="Index" type="number" readonly step="1" min="0" max="999999"
+                                   required/></td>
+                        <td><input name="name" placeholder="First name" type="text" required/></td>
+                        <td><input name=surname placeholder="Last name" type="text" required/></td>
+                        <td><input name="birthday" type="date" min="1950-01-01" max="2016-05-20" required/></td>
+                        <td>
+                            <button type="submit">Save</button>
+                        </td>
+                    </form>
                 </tr>
                 </tbody>
             </table>
@@ -166,12 +203,14 @@
                     </td>
                     <td>
                         <span>Name</span>
-                        <input type="text" placeholder="Filtruj">
+                        <input type="text" placeholder="Filtruj"
+                               data-bind="textInput: model.subjects.queryParams.nameQuery">
                         <button>[OK]</button>
                     </td>
                     <td>
                         <span>Mentor</span>
-                        <input type="text" placeholder="Filtruj">
+                        <input type="text" placeholder="Filtruj"
+                               data-bind="textInput: model.subjects.queryParams.leaderQuery">
                         <button>[OK]</button>
                     </td>
                     <td>
@@ -180,6 +219,7 @@
                 </tr>
                 </thead>
                 <tbody>
+                <!-- ko foreach: subjects -->
                 <tr>
                     <td><span>1</span></td>
                     <td><input type="text" value="TPAS" placeholder="Name" minlength="1"></td>
@@ -190,21 +230,18 @@
                         <button>[EDIT]</button>
                     </td>
                 </tr>
+                <!-- /ko -->
+
                 <tr>
-                    <td><span>2</span></td>
-                    <td><input type="text" value="TPAS" placeholder="Name" minlength="1"></td>
-                    <td><input type="text" value="T.Pawlak" required placeholder="Mentor" minlength="1"></td>
-                    <td>
-                        <button>[DEL]</button>
-                        <button>[MORE]</button>
-                        <button>[EDIT]</button>
-                    </td>
+                    <form data-bind="submit: subjects.add">
+                        <td><input name="name" placeholder="Course name" type="text" required/></td>
+                        <td><input name="leader" placeholder="Leader" type="text" required/></td>
+                        <td>
+                            <button type="submit">Save</button>
+                        </td>
+                    </form>
                 </tr>
-                <tr>
-                    <td>
-                        <button>[ADD]</button>
-                    </td>
-                </tr>
+
                 </tbody>
             </table>
         </form>
