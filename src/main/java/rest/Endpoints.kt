@@ -2,7 +2,6 @@ package rest
 
 import models.Grade
 import models.Student
-import models.Subject
 import org.bson.types.ObjectId
 import repositories.MongoDBRepository
 import java.net.URI
@@ -25,7 +24,7 @@ class ListStudentsEndpoint {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     fun post(student: Student): Response {
-        student.index = repository.newestIndex
+        student.index = repository.newestIndex.toLong()
         repository.saveStudent(student)
 
         val message = "Student ${student.name} ${student.surname} has been added"
@@ -40,7 +39,7 @@ class StudentEndpoint {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    fun get(@PathParam("index") index: Int): Response {
+    fun get(@PathParam("index") index: Long): Response {
         val student = repository.students
                 .firstOrNull { it.index == index }
 
@@ -49,7 +48,7 @@ class StudentEndpoint {
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    fun put(@PathParam("index") index: Int, student: Student): Response {
+    fun put(@PathParam("index") index: Long, student: Student): Response {
         val students = repository.students
         val oldStudent = students
                 .firstOrNull { it.index == index }
@@ -60,7 +59,7 @@ class StudentEndpoint {
         }
 
         val i = students.indexOf(oldStudent)
-        student.index = index
+        student.index = index.toLong()
         repository.saveStudent(student)
 
         val message = "Student ${student.name} ${student.surname} has been updated"
@@ -69,7 +68,7 @@ class StudentEndpoint {
 
     @DELETE
     @Produces(MediaType.TEXT_PLAIN)
-    fun delete(@PathParam("index") index: Int): Response {
+    fun delete(@PathParam("index") index: Long): Response {
         val students = repository.students
         val student = students
                 .firstOrNull { it.index == index }
@@ -94,10 +93,10 @@ class ListGradesForStudentEndpoint {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    fun get(@PathParam("index") index: Int): Response {
+    fun get(@PathParam("index") index: Long): Response {
         val grades = repository.students
                 .firstOrNull { it.index == index }
-                ?.grades
+                ?.
 
         return Response.status(if (grades == null) Response.Status.NOT_FOUND else Response.Status.OK).entity(grades).build()
     }
@@ -120,10 +119,11 @@ class GradeForStudentEndpoint {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    fun get(@PathParam("index") index: Int, @PathParam("id") id: String): Response {
+    fun get(@PathParam("index") index: Long, @PathParam("id") id: String): Response {
         val grade = repository.students
                 .firstOrNull { it.index == index }
-                ?.grades
+                .grades
+
                 ?.firstOrNull { it.id.toString() == id }
 
         return Response.status(if (grade == null) Response.Status.NOT_FOUND else Response.Status.OK).entity(grade).build()

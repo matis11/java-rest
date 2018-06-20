@@ -63,22 +63,22 @@
                 </tr>
                 </thead>
                 <tbody>
-                <!-- ko foreach: grades -->
+                <!--ko foreach: grades -->
                 <tr>
-                    <!--<td>-->
-                    <!--<select required disabled data-bind="options: $parent.subjects,-->
-                    <!--optionsText: function(i) { return i.name(); },-->
-                    <!--optionsValue: function(i) { return i.subjectId(); },-->
-                    <!--optionsCaption: 'Choose subject...',-->
-                    <!--value: courseId"/>-->
-                    <!--</td>-->
-                    <!--<td>-->
-                    <!--<select required disabled data-bind="options: $parent.students,-->
-                    <!--optionsText: function(i) { return i.name() + ' ' + i.surname(); },-->
-                    <!--optionsValue: function(i) { return i.index(); },-->
-                    <!--optionsCaption: 'Choose student...',-->
-                    <!--value: student.index"/>-->
-                    <!--</td>-->
+                    <td>
+                        <!--<select required disabled data-bind="options: $parent.courses,-->
+                        <!--optionsText: function(i) { return i.firstName(); },-->
+                        <!--optionsValue: function(i) { return i.courseId(); },-->
+                        <!--optionsCaption: 'Choose subject...',-->
+                        <!--value: courseId"/>-->
+                    </td>
+                    <td>
+                        <!--<select required disabled data-bind="options: $parent.students,-->
+                        <!--optionsText: function(i) { return i.name() + ' ' + i.lastName(); },-->
+                        <!--optionsValue: function(i) { return i.index(); },-->
+                        <!--optionsCaption: 'Choose student...',-->
+                        <!--value: student.index"/>-->
+                    </td>
                     <td><input placeholder="Note" type="number" data-bind="value: note" required step="0.5" min="2.0"
                                max="5.0"/></td>
                     <td><input type="date" data-bind="value: date" min="1950-01-01" max="2016-05-20" required/></td>
@@ -89,25 +89,25 @@
                 <!-- /ko -->
                 <tr>
                     <form data-bind="submit: grades.add">
-                        <!--<td>-->
-                        <!--<select name="courseId" required data-bind="options: model.subjects,-->
-                        <!--optionsText: function(i) { return i.name(); },-->
-                        <!--optionsValue: function(i) { return i.subjectId(); },-->
-                        <!--optionsCaption: 'Choose subject...',-->
-                        <!--value: model.grades.selectedCourse,-->
-                        <!--enable: model.grades.isCourseEnable()"/>-->
-                        <!--</td>-->
-                        <!--<td>-->
-                        <!--<select name="index" required data-bind="options: model.students,-->
-                        <!--optionsText: function(i) { return i.name() + ' ' + i.surname(); },-->
-                        <!--optionsValue: function(i) { return i.index(); },-->
-                        <!--optionsCaption: 'Choose student...',-->
-                        <!--value: model.grades.selectedStudent,-->
-                        <!--enable: model.grades.isStudentEnable()"/>-->
-                        <!--</td>-->
-                        <td><input name="note" placeholder="Note" type="number" required step="0.5" min="2.0"
+                        <td>
+                            <!--<select name="courseId" required data-bind="options: model.courses,-->
+                            <!--optionsText: function(i) { return i.firstName(); },-->
+                            <!--optionsValue: function(i) { return i.courseId(); },-->
+                            <!--optionsCaption: 'Choose subject...',-->
+                            <!--value: model.grades.selectedCourse,-->
+                            <!--enable: model.grades.isCourseEnable()"/>-->
+                        </td>
+                        <td>
+                            <!--<select name="index" required data-bind="options: model.students,-->
+                            <!--optionsText: function(i) { return i.firstName() + ' ' + i.lastName(); },-->
+                            <!--optionsValue: function(i) { return i.index(); },-->
+                            <!--optionsCaption: 'Choose student...',-->
+                            <!--value: model.grades.selectedStudent,-->
+                            <!--enable: model.grades.isStudentEnable()"/>-->
+                        </td>
+                        <td><input name="value" placeholder="Note" type="number" step="0.5" min="2.0"
                                    max="5.0"/></td>
-                        <td><input name="date" type="date" min="1950-01-01" max="2016-05-20" required/></td>
+                        <td><input name="date" type="date" min="1950-01-01" max="2016-05-20"/></td>
                         <td>
                             <button>Save</button>
                         </td>
@@ -135,18 +135,18 @@
                     <td>
                         <span>First name</span>
                         <input type="text" placeholder="Filtruj"
-                               data-bind="textInput: model.students.queryParams.nameQuery">
+                               data-bind="textInput: model.students.queryParams.firstNameQuery">
                         <button>[OK]</button>
                     </td>
                     <td>
                         <span>Last name</span>
                         <input type="text" placeholder="Filtruj"
-                               data-bind="textInput: model.students.queryParams.surnameQuery">
+                               data-bind="textInput: model.students.queryParams.lastNameQuery">
                         <button>[OK]</button>
                     </td>
                     <td>
                         <span>Date</span>
-                        <input type="date" data-bind="textInput: model.students.queryParams.birthdayQuery">
+                        <input type="date" data-bind="textInput: model.students.queryParams.dateOfBirthQuery">
                         <button>[OK]</button>
                     </td>
                     <td>
@@ -158,11 +158,11 @@
                 <!-- ko foreach: students-->
                 <tr>
                     <td><input type="number" data-bind="value: index" readonly required></td>
-                    <td><input type="text" data-bind="value: name" placeholder="First Name"
+                    <td><input type="text" data-bind="value: firstName" placeholder="First Name"
                                minlength="1"></td>
-                    <td><input type="text" data-bind="value: surname" required placeholder="Last name"
+                    <td><input type="text" data-bind="value: lastName" required placeholder="Last name"
                                minlength="1"></td>
-                    <td><input type="number" data-bind="value: birthday" required minlength="1">
+                    <td><input type="date" data-bind="value: dateOfBirth" required minlength="1">
                     </td>
                     <td>
                         <button onclick="location.href='#grades'">[GRADES]</button>
@@ -176,9 +176,9 @@
                     <form data-bind="submit: students.add">
                         <td><input name="index" placeholder="Index" type="number" readonly step="1" min="0" max="999999"
                                    required/></td>
-                        <td><input name="name" placeholder="First name" type="text" required/></td>
-                        <td><input name=surname placeholder="Last name" type="text" required/></td>
-                        <td><input name="birthday" type="date" min="1950-01-01" max="2016-05-20" required/></td>
+                        <td><input name="firstName" placeholder="First name" type="text" required/></td>
+                        <td><input name=lastName placeholder="Last name" type="text" required/></td>
+                        <td><input name="dateOfBirth" type="date" min="1950-01-01" max="2016-05-20" required/></td>
                         <td>
                             <button type="submit">Save</button>
                         </td>
@@ -204,13 +204,13 @@
                     <td>
                         <span>Name</span>
                         <input type="text" placeholder="Filtruj"
-                               data-bind="textInput: model.subjects.queryParams.nameQuery">
+                               data-bind="textInput: model.courses.queryParams.nameQuery">
                         <button>[OK]</button>
                     </td>
                     <td>
                         <span>Mentor</span>
                         <input type="text" placeholder="Filtruj"
-                               data-bind="textInput: model.subjects.queryParams.leaderQuery">
+                               data-bind="textInput: model.courses.queryParams.leaderQuery">
                         <button>[OK]</button>
                     </td>
                     <td>
@@ -219,11 +219,11 @@
                 </tr>
                 </thead>
                 <tbody>
-                <!-- ko foreach: subjects -->
+                <!-- ko foreach: courses -->
                 <tr>
                     <td><span>1</span></td>
-                    <td><input type="text" value="TPAS" placeholder="Name" minlength="1"></td>
-                    <td><input type="text" value="T.Pawlak" required placeholder="Mentor" minlength="1"></td>
+                    <td><input type="text" data-bind="value: name" placeholder="Name" minlength="1"></td>
+                    <td><input type="text" data-bind="value: leader" required placeholder="Mentor" minlength="1"></td>
                     <td>
                         <button>[DEL]</button>
                         <button>[MORE]</button>
@@ -233,7 +233,7 @@
                 <!-- /ko -->
 
                 <tr>
-                    <form data-bind="submit: subjects.add">
+                    <form data-bind="submit: courses.add">
                         <td><input name="name" placeholder="Course name" type="text" required/></td>
                         <td><input name="leader" placeholder="Leader" type="text" required/></td>
                         <td>

@@ -24,15 +24,15 @@ var collection = function (url, idAttr) {
                 self.removeAll();
                 data.forEach(function (element, index, array) {
                     var object = ko.mapping.fromJS(element, {ignore: ["link"]});
-                    // object.links = [];
+                    object.links = [];
 
-                    // if ($.isArray(element.link)) {
-                    //     element.link.forEach(function (link) {
-                    //         object.links[link.params.rel] = link.href;
-                    //     });
-                    // } else {
-                    //     object.links[element.link.params.rel] = element.link.uri;
-                    // }
+                    if ($.isArray(element.link)) {
+                        element.link.forEach(function (link) {
+                            object.links[link.params.rel] = link.href;
+                        });
+                    } else {
+                        object.links[element.link.params.rel] = element.link.href;
+                    }
 
                     self.push(object);
 
@@ -68,15 +68,15 @@ var collection = function (url, idAttr) {
                 var response = ko.mapping.fromJS(data);
                 object[idAttr](response[idAttr]());
 
-                // object.links = [];
+                object.links = [];
 
-                // if ($.isArray(data.link)) {
-                //     data.link.forEach(function (link) {
-                //         object.links[link.params.rel] = link.href;
-                //     });
-                // } else {
-                //     object.links[data.link.params.rel] = data.link.href;
-                // }
+                if ($.isArray(data.link)) {
+                    data.link.forEach(function (link) {
+                        object.links[link.params.rel] = link.href;
+                    });
+                } else {
+                    object.links[data.link.params.rel] = data.link.href;
+                }
 
                 ko.computed(function () {
                     return ko.toJSON(object);
@@ -142,9 +142,9 @@ function viewModel() {
     };
     self.students.queryParams = {
         indexQuery: ko.observable(),
-        nameQuery: ko.observable(),
-        surnameQuery: ko.observable(),
-        birthdayQuery: ko.observable()
+        firstNameQuery: ko.observable(),
+        lastNameQuery: ko.observable(),
+        dateOfBirthQuery: ko.observable()
     };
     Object.keys(self.students.queryParams).forEach(function (key) {
         self.students.queryParams[key].subscribe(function () {
@@ -153,26 +153,26 @@ function viewModel() {
     });
     self.students.get();
 
-    self.subjects = new collection(backendAddress + "subjects", "courseId");
-    self.subjects.getGrades = function () {
+    self.courses = new collection(backendAddress + "courses", "courseId");
+    self.courses.getGrades = function () {
         window.location = "#grades";
         self.grades.selectedStudent(null);
         self.grades.selectedCourse(this.courseId());
         self.grades.isCourseEnable(false);
         self.grades.isStudentEnable(true);
-        self.grades.url = backendAddress + "subjects/" + this.courseId() + "/grades";
+        self.grades.url = backendAddress + "courses/" + this.courseId() + "/grades";
         self.grades.get();
     };
-    self.subjects.queryParams = {
+    self.courses.queryParams = {
         nameQuery: ko.observable(),
         leaderQuery: ko.observable()
     };
-    Object.keys(self.subjects.queryParams).forEach(function (key) {
-        self.subjects.queryParams[key].subscribe(function () {
-            self.subjects.parseQuery();
+    Object.keys(self.courses.queryParams).forEach(function (key) {
+        self.courses.queryParams[key].subscribe(function () {
+            self.courses.parseQuery();
         });
     });
-    self.subjects.get();
+    self.courses.get();
 
     self.grades = new collection(backendAddress + "grades", "id");
     self.grades.selectedCourse = ko.observable();
@@ -181,7 +181,7 @@ function viewModel() {
     self.grades.isStudentEnable = ko.observable(true);
 
     self.grades.add = function (form) {
-        self.grades.postUrl = backendAddress + 'students/' + self.grades.selectedStudent() + '/subjects/' + self.grades.selectedCourse() + '/grades';
+        self.grades.postUrl = backendAddress + 'students/' + self.grades.selectedStudent() + '/courses/' + self.grades.selectedCourse() + '/grades';
         var data = {};
         $(form).serializeArray().map(function (x) {
             data[x.name] = x.value;

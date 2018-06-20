@@ -95,8 +95,8 @@ object MongoDBRepository : Repository {
         )
 
         val mockedStudents = mutableListOf(
-                Student(index = 1, name = "Mateusz", surname = "Bartos", birthday = Date.from(Instant.now()), grades = mockedGrades),
-                Student(index = 2, name = "Bartosz", surname = "Mat", birthday = Date.from(Instant.now()), grades = mockedGrades)
+                Student(name = "Mateusz", surname = "Bartos", birthday = Date.from(Instant.now())),
+                Student(name = "Bartosz", surname = "Mat", birthday = Date.from(Instant.now()))
         )
 
         val mockedNewestIndex = StudentIndex(index = 2)
