@@ -1,6 +1,6 @@
 "use strict";
 
-var backendAddress = "http://localhost:9998/";
+var host = "http://localhost:9998/";
 
 var collection = function (url, idAttr) {
     var self = ko.observableArray();
@@ -130,14 +130,14 @@ var collection = function (url, idAttr) {
 function viewModel() {
     var self = this;
 
-    self.students = new collection(backendAddress + "students", "index");
+    self.students = new collection(host + "students", "index");
     self.students.getGrades = function () {
         window.location = "#grades";
         self.grades.selectedStudent(this.index());
         self.grades.selectedCourse(null);
         self.grades.isCourseEnable(true);
         self.grades.isStudentEnable(false);
-        self.grades.url = backendAddress + "students/" + this.index() + "/grades";
+        self.grades.url = host + "students/" + this.index() + "/grades";
         self.grades.get();
     };
     self.students.queryParams = {
@@ -153,14 +153,14 @@ function viewModel() {
     });
     self.students.get();
 
-    self.courses = new collection(backendAddress + "courses", "courseId");
+    self.courses = new collection(host + "courses", "courseId");
     self.courses.getGrades = function () {
         window.location = "#grades";
         self.grades.selectedStudent(null);
         self.grades.selectedCourse(this.courseId());
         self.grades.isCourseEnable(false);
         self.grades.isStudentEnable(true);
-        self.grades.url = backendAddress + "courses/" + this.courseId() + "/grades";
+        self.grades.url = host + "courses/" + this.courseId() + "/grades";
         self.grades.get();
     };
     self.courses.queryParams = {
@@ -174,14 +174,14 @@ function viewModel() {
     });
     self.courses.get();
 
-    self.grades = new collection(backendAddress + "grades", "id");
+    self.grades = new collection(host + "grades", "id");
     self.grades.selectedCourse = ko.observable();
     self.grades.selectedStudent = ko.observable();
     self.grades.isCourseEnable = ko.observable(true);
     self.grades.isStudentEnable = ko.observable(true);
 
     self.grades.add = function (form) {
-        self.grades.postUrl = backendAddress + 'students/' + self.grades.selectedStudent() + '/courses/' + self.grades.selectedCourse() + '/grades';
+        self.grades.postUrl = host + 'students/' + self.grades.selectedStudent() + '/courses/' + self.grades.selectedCourse() + '/grades';
         var data = {};
         $(form).serializeArray().map(function (x) {
             data[x.name] = x.value;
